@@ -7,7 +7,6 @@ const LoginForm = ({ onLogin }) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Add validation if needed
     onLogin(username, password);
   };
 

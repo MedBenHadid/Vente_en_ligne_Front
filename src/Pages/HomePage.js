@@ -4,9 +4,10 @@ import { Row, Col, Container } from "react-bootstrap";
 import ProductCard from "../Components/ProductCard";
 import Cart from "../Components/Cart";
 import api from "../api";
+import ProductService from "../Services/ProductService";
 
 const HomePage = () => {
-  const sampleProducts = [
+  /*const sampleProducts = [
     { id: 1, name: "Product 1", price: 20, image: "holder.js/100px180" },
     { id: 2, name: "Product 2", price: 25, image: "holder.js/100px180" },
     { id: 3, name: "Product 3", price: 30, image: "holder.js/100px180" },
@@ -16,16 +17,18 @@ const HomePage = () => {
     { id: 7, name: "Product 1", price: 20, image: "holder.js/100px180" },
     { id: 8, name: "Product 2", price: 25, image: "holder.js/100px180" },
     { id: 9, name: "Product 3", price: 30, image: "holder.js/100px180" },
-    // Add more products as needed
   ];
   const [products, setProducts] = useState(sampleProducts);
   const [cart, setCart] = useState([]);
+*/
+const [products, setProducts] = useState([]);
+const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/products");
-        setProducts(response.data);
+        const allProducts = await ProductService.getAllProducts();
+        setProducts(allProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
