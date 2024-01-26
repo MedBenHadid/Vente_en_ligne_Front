@@ -1,4 +1,3 @@
-// src/pages/HomePage.js
 import React, { useState, useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import ProductCard from "../Components/ProductCard";
@@ -14,7 +13,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("http://localhost/api/get-products");
+        const response = await api.get("http://127.0.0.1:8000/api/get-products");
         console.log(response.data);
         setProducts(response.data.data);
       } catch (error) {
@@ -25,27 +24,25 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    // console.log(cart);
-  }, [cart]);
+  
 
   const addToCart = (product) => {
     let clonedCart = cart;
 
     let cartIndex = clonedCart.findIndex((val) => val?.id == product?.id);
-    
+
     if (cartIndex == -1) {
       let productItem = {
         id: product?.id,
         item: product,
-        qty: 1
+        qty: 1,
       };
       setCart([...cart, productItem]);
     } else {
       let productItem = cart.find((val) => val?.id == product?.id);
       productItem.qty++;
       clonedCart[cartIndex] = productItem;
-      setCart(clonedCart);
+      setCart([...cart, productItem]);
     }
   };
   const removeFromCart = (productId) => {
