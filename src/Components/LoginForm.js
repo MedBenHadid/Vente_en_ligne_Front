@@ -1,4 +1,3 @@
-// src/components/LoginForm.js
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
@@ -7,7 +6,7 @@ const LoginForm = ({ onLogin }) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    onLogin(username, password);
+    onLogin(username, password);w
   };
 
   return (

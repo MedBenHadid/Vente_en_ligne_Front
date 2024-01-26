@@ -1,4 +1,3 @@
-// src/pages/HomePage.js
 import React, { useState, useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import ProductCard from "../Components/ProductCard";
@@ -7,7 +6,6 @@ import api from "../api";
 import ProductService from "../Services/ProductService";
 
 const HomePage = () => {
-
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
 
@@ -15,7 +13,6 @@ const HomePage = () => {
     const fetchData = async () => {
       try {
         const response = await api.get("http://localhost/api/get-products");
-        console.log(response.data);
         setProducts(response.data.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -25,34 +22,53 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    // console.log(cart);
-  }, [cart]);
-
   const addToCart = (product) => {
-    let clonedCart = cart;
+    let clonedCart = [...cart];
 
-    let cartIndex = clonedCart.findIndex((val) => val?.id == product?.id);
-    
-    if (cartIndex == -1) {
+    let cartIndex = clonedCart.findIndex((val) => val?.id === product?.id);
+
+    if (cartIndex === -1) {
       let productItem = {
         id: product?.id,
         item: product,
-        qty: 1
+        qty: 1,
       };
-      setCart([...cart, productItem]);
+      setCart([...clonedCart, productItem]);
     } else {
-      let productItem = cart.find((val) => val?.id == product?.id);
+      let productItem = clonedCart.find((val) => val?.id === product?.id);
       productItem.qty++;
       clonedCart[cartIndex] = productItem;
-      setCart(clonedCart);
+
+      setCart([...clonedCart]); 
     }
   };
+
   const removeFromCart = (productId) => {
     const updatedCart = cart.filter((item) => item.id !== productId);
     setCart(updatedCart);
   };
 
+  const minusQty = (productId) => {
+    const updatedCart = cart.map((item) => {
+      if (item.id === productId && item.qty > 0) {
+        return { ...item, qty: item.qty - 1 };
+      }
+      return item;
+    });
+
+    setCart(updatedCart);
+  };
+
+  const plusQty = (productId) => {
+    const updatedCart = cart.map((item) => {
+      if (item.id === productId) {
+        return { ...item, qty: item.qty + 1 };
+      }
+      return item;
+    });
+
+    setCart(updatedCart);
+  };
   return (
     <Container fluid>
       <h2>Home Page</h2>
@@ -69,7 +85,7 @@ const HomePage = () => {
           </div>
         </Col>
         <Col md={3}>
-          <Cart cart={cart} removeFromCart={removeFromCart} />
+          <Cart cart={cart} removeFromCart={removeFromCart} minusQty={minusQty} plusQty={plusQty} />
         </Col>
       </Row>
     </Container>

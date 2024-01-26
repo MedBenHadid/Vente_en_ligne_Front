@@ -3,17 +3,18 @@ import React, { useState } from "react";
 import { Card, Button, InputGroup, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const Cart = ({ cart, removeFromCart }) => {
+const Cart = ({ cart, removeFromCart,minusQty,plusQty }) => {
   const navigate = useNavigate();
-  function handleNavigateClick() {
 
-    navigate("/order-summary", { cart: cart });
+  function handleNavigateClick() {
+    navigate("/order-summary", { state: { cart: cart } });
   }
+
   return (
     <Card style={{ width: "18rem", margin: "10px" }}>
       <Card.Body>
         <Card.Title>Shopping Cart</Card.Title>
-        {[...new Set(cart)].map((item, key) => (
+        {cart.map((item, key) => (
           <div
             key={key}
             style={{
@@ -32,25 +33,33 @@ const Cart = ({ cart, removeFromCart }) => {
               </Card.Text>
               <Card.Text style={{ display: "flex", flexDirection: "row" }}>
                 Price: {item.item.price} DT{" "}
-                <b style={{ marginLeft: "5px" }}>
-                  {" "}
-                  {/* X {cart.filter((val) => val.id == item.id).length} */}
-                </b>
+                <b style={{ marginLeft: "5px" }}> </b>
               </Card.Text>
+
               <InputGroup className="mb-3">
+                <Button
+                  variant="secondary"
+                  onClick={()=>minusQty(item.id)}
+                  style={{ height: "60%" }}
+                >
+                  -
+                </Button>
                 <InputGroup.Text id="inputGroup-sizing-default">
-                  Quantity = {item.qty}
+                  X {item.qty}
                 </InputGroup.Text>
-                {/* <Form.Control
-                  value={item.qty}
-                  aria-label={item.qty}
-                  aria-describedby="inputGroup-sizing-default"
-                /> */}
+                <Button
+                  variant="secondary"
+                  onClick={()=>plusQty(item.id)}
+
+                  style={{ height: "60%" }}
+                >
+                  +
+                </Button>
               </InputGroup>
             </div>
 
             <Button
-              variant="danger"
+              variant="success"
               onClick={() => removeFromCart(item.id)}
               style={{ height: "60%" }}
             >

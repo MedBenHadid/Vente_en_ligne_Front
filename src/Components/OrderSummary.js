@@ -1,15 +1,15 @@
-// src/components/OrderSummary.js
 import React, { useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 
 const OrderSummary = ({ cart, applyDiscount }) => {
+  console.log(cart);
+
   const totalAmount = cart.reduce((total, item) => total + item.price, 0);
   const discountedAmount = totalAmount > 100 ? 0.25 * totalAmount : 0;
   const finalAmount = totalAmount - discountedAmount;
-  console.log(cart);
 
 
-  return (<>
+  return (
   <Card style={{ width: "18rem", margin: "10px" }}>
       <Card.Body>
         <Card.Title>Order Summary</Card.Title>
@@ -28,7 +28,7 @@ const OrderSummary = ({ cart, applyDiscount }) => {
           Apply Discount
         </Button>
       </Card.Body>
-    </Card></>
+    </Card>
   );
 };
 

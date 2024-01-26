@@ -8,16 +8,17 @@ import NotFound from "./Components/NotFound";
 import api from "./api";
 import AuthService from "./Services/AuthService";
 import HomePage from "./Pages/HomePage";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 const App = () => {
-  const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/products");
-        setProducts(response.data);
+        const response = await api.get("http://localhost/api/get-products");
+        setProducts(response.data.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -63,13 +64,16 @@ const App = () => {
 
       <Routes>
         <Route path="/"  element={<HomePage/>} />
-   
+
         <Route
           path="/order-summary"
-          element={() => (
-            <OrderSummary cart={cart} applyDiscount={applyDiscount} />
-          )}
+          element={(props) => <OrderSummary {...props} cart={products} applyDiscount={applyDiscount} />}
         />
+        {/* <Route
+          path="/order-summary"
+          element={<OrderSummary />}
+          cart={products} applyDiscount={applyDiscount} 
+        /> */}
         <Route path="/login" element={<LoginPage/>} />
         <Route element={<NotFound/>} />
       </Routes>
