@@ -6,7 +6,7 @@ const ProductCard = ({ product, addToCart }) => {
   return (
     <Card style={{ width: '18rem', margin: '10px' }}>
       <Card.Body>
-      <Card.Img variant="top" src={product.image} />
+      <Card.Img variant="top" src={product.photo} />
 
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>Price: {product.price} DT</Card.Text>

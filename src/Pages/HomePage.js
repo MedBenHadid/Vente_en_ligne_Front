@@ -7,22 +7,9 @@ import api from "../api";
 import ProductService from "../Services/ProductService";
 
 const HomePage = () => {
-  /*const sampleProducts = [
-    { id: 1, name: "Product 1", price: 20, image: "holder.js/100px180" },
-    { id: 2, name: "Product 2", price: 25, image: "holder.js/100px180" },
-    { id: 3, name: "Product 3", price: 30, image: "holder.js/100px180" },
-    { id: 4, name: "Product 1", price: 20, image: "holder.js/100px180" },
-    { id: 5, name: "Product 2", price: 25, image: "holder.js/100px180" },
-    { id: 6, name: "Product 3", price: 30, image: "holder.js/100px180" },
-    { id: 7, name: "Product 1", price: 20, image: "holder.js/100px180" },
-    { id: 8, name: "Product 2", price: 25, image: "holder.js/100px180" },
-    { id: 9, name: "Product 3", price: 30, image: "holder.js/100px180" },
-  ];
-  const [products, setProducts] = useState(sampleProducts);
+
+  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
-*/
-const [products, setProducts] = useState([]);
-const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,31 +26,27 @@ const [cart, setCart] = useState([]);
   }, []);
 
   useEffect(() => {
-    console.log(cart);
+    // console.log(cart);
   }, [cart]);
 
-  // const addToCart = (product) => {
-  //     let productItem = {
-  //       item : product,
-  //       qty:cart.filter((val) => val.id == product.id).length
-  //     }
-
-  //     if(cart.filter((val) => val.id == product.id).length<=1)
-  //       setCart([...cart,productItem]);
-     
-  // };
   const addToCart = (product) => {
-    let productItem = {
-      item: product,
-      qty: cart.filter((val) => val.id == product.id).length,
-    };
-    // if (cart.filter((val) => val.id == product.id).length > 0) {
-      let cartIndex = cart.findIndex((val) => val.id == product.id);
-      let clonedCart = cart
-      clonedCart[cartIndex] = productItem;
-      setCart([...cart,clonedCart]);
+    let clonedCart = cart;
 
-    // }
+    let cartIndex = clonedCart.findIndex((val) => val?.id == product?.id);
+    
+    if (cartIndex == -1) {
+      let productItem = {
+        id: product?.id,
+        item: product,
+        qty: 1
+      };
+      setCart([...cart, productItem]);
+    } else {
+      let productItem = cart.find((val) => val?.id == product?.id);
+      productItem.qty++;
+      clonedCart[cartIndex] = productItem;
+      setCart(clonedCart);
+    }
   };
   const removeFromCart = (productId) => {
     const updatedCart = cart.filter((item) => item.id !== productId);
