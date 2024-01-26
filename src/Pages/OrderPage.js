@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import OrderService from '../services/OrderService';
-import AuthService from '../Services/AuthService';
+import OrderService from '../Services/OrderService';
 
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);

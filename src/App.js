@@ -8,6 +8,7 @@ import NotFound from "./Components/NotFound";
 import api from "./api";
 import AuthService from "./Services/AuthService";
 import HomePage from "./Pages/HomePage";
+import OrderPage from "./Pages/OrderPage";
 
 const App = () => {
   const [cart, setCart] = useState([]);
@@ -70,6 +71,11 @@ const App = () => {
             <OrderSummary cart={cart} applyDiscount={applyDiscount} />
           )}
         />
+       <Route
+         path="/OrderPage"
+          element={<OrderPage />}
+      />
+      
         <Route path="/login" element={<LoginPage/>} />
         <Route element={<NotFound/>} />
       </Routes>

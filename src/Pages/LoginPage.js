@@ -8,7 +8,7 @@ const LoginPage = ({ history }) => {
   const handleLogin = (username, password) => {
     AuthService.login(username, password);
 
-    history.push('/');
+    history.push('/OrderPage');
   };
 
   return (
