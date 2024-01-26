@@ -1,16 +1,14 @@
 // src/components/Cart.js
 import React, { useState } from "react";
 import { Card, Button, InputGroup, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Cart = ({ cart, removeFromCart }) => {
-  // const [cartList, setCartList] = useState([...new Set(cart)].map((val) => {
-  //   return {
-  //     item: val,
-  //     qty: cart.filter((value) => value.id == val.id).length,
-  //   };
-  // }));
-  // setCartList([...new Set(cartList)])
-  // console.log(new Set(cartList))
+  const navigate = useNavigate();
+  function handleNavigateClick() {
+
+    navigate("/order-summary", { cart: cart });
+  }
   return (
     <Card style={{ width: "18rem", margin: "10px" }}>
       <Card.Body>
@@ -30,10 +28,10 @@ const Cart = ({ cart, removeFromCart }) => {
               style={{ display: "flex", flexDirection: "column", width: "80%" }}
             >
               <Card.Text>
-                <b>{item.name}</b>
+                <b>{item.item.name}</b>
               </Card.Text>
               <Card.Text style={{ display: "flex", flexDirection: "row" }}>
-                Price: {item.price} DT{" "}
+                Price: {item.item.price} DT{" "}
                 <b style={{ marginLeft: "5px" }}>
                   {" "}
                   {/* X {cart.filter((val) => val.id == item.id).length} */}
@@ -41,13 +39,13 @@ const Cart = ({ cart, removeFromCart }) => {
               </Card.Text>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-default">
-                  Quantity
+                  Quantity = {item.qty}
                 </InputGroup.Text>
-                <Form.Control
-                  value={cart.filter((val) => val.id == item.id).length}
-                  aria-label={cart.filter((val) => val.id == item.id).length}
+                {/* <Form.Control
+                  value={item.qty}
+                  aria-label={item.qty}
                   aria-describedby="inputGroup-sizing-default"
-                />
+                /> */}
               </InputGroup>
             </div>
 
@@ -63,7 +61,7 @@ const Cart = ({ cart, removeFromCart }) => {
 
         <Button
           variant="success"
-          onClick={() => console.log("heel")}
+          onClick={() => handleNavigateClick()}
           style={{ height: "60%", height: "fit-content", width: "100%" }}
         >
           Pass to order
