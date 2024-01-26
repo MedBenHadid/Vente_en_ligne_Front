@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Link, BrowserRouter as Router } from "react-router-dom";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
@@ -30,7 +29,6 @@ const App = () => {
     
 
   const applyDiscount = () => {
-    // Implement discount logic here
   };
 
   return (
