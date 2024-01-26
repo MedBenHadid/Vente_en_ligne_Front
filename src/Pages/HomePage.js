@@ -27,8 +27,9 @@ const [cart, setCart] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allProducts = await ProductService.getAllProducts();
-        setProducts(allProducts);
+        const response = await api.get("http://localhost/api/get-products");
+        console.log(response.data);
+        setProducts(response.data.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -37,12 +38,33 @@ const [cart, setCart] = useState([]);
     fetchData();
   }, []);
 
-  const addToCart = (product) => {
-    console.log(product.id)
-    console.log(cart)
-    setCart([...cart, product]);
-  };
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
 
+  // const addToCart = (product) => {
+  //     let productItem = {
+  //       item : product,
+  //       qty:cart.filter((val) => val.id == product.id).length
+  //     }
+
+  //     if(cart.filter((val) => val.id == product.id).length<=1)
+  //       setCart([...cart,productItem]);
+     
+  // };
+  const addToCart = (product) => {
+    let productItem = {
+      item: product,
+      qty: cart.filter((val) => val.id == product.id).length,
+    };
+    // if (cart.filter((val) => val.id == product.id).length > 0) {
+      let cartIndex = cart.findIndex((val) => val.id == product.id);
+      let clonedCart = cart
+      clonedCart[cartIndex] = productItem;
+      setCart([...cart,clonedCart]);
+
+    // }
+  };
   const removeFromCart = (productId) => {
     const updatedCart = cart.filter((item) => item.id !== productId);
     setCart(updatedCart);
