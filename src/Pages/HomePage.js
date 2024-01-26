@@ -7,16 +7,16 @@ import api from "../api";
 
 const HomePage = () => {
   const sampleProducts = [
-    { id: 1, name: "Product 1", price: 20, image: "holder.js/100px180" },
-    { id: 2, name: "Product 2", price: 25, image: "holder.js/100px180" },
-    { id: 3, name: "Product 3", price: 30, image: "holder.js/100px180" },
-    { id: 4, name: "Product 1", price: 20, image: "holder.js/100px180" },
-    { id: 5, name: "Product 2", price: 25, image: "holder.js/100px180" },
-    { id: 6, name: "Product 3", price: 30, image: "holder.js/100px180" },
-    { id: 7, name: "Product 1", price: 20, image: "holder.js/100px180" },
-    { id: 8, name: "Product 2", price: 25, image: "holder.js/100px180" },
-    { id: 9, name: "Product 3", price: 30, image: "holder.js/100px180" },
-    // Add more products as needed
+    // { id: 1, name: "Product 1", price: 20, image: "holder.js/100px180" },
+    // { id: 2, name: "Product 2", price: 25, image: "holder.js/100px180" },
+    // { id: 3, name: "Product 3", price: 30, image: "holder.js/100px180" },
+    // { id: 4, name: "Product 1", price: 20, image: "holder.js/100px180" },
+    // { id: 5, name: "Product 2", price: 25, image: "holder.js/100px180" },
+    // { id: 6, name: "Product 3", price: 30, image: "holder.js/100px180" },
+    // { id: 7, name: "Product 1", price: 20, image: "holder.js/100px180" },
+    // { id: 8, name: "Product 2", price: 25, image: "holder.js/100px180" },
+    // { id: 9, name: "Product 3", price: 30, image: "holder.js/100px180" },
+    // // Add more products as needed
   ];
   const [products, setProducts] = useState(sampleProducts);
   const [cart, setCart] = useState([]);
@@ -24,8 +24,9 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/products");
-        setProducts(response.data);
+        const response = await api.get("http://localhost/api/get-products");
+        console.log(response.data);
+        setProducts(response.data.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -34,12 +35,33 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  const addToCart = (product) => {
-    console.log(product.id)
-    console.log(cart)
-    setCart([...cart, product]);
-  };
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
 
+  // const addToCart = (product) => {
+  //     let productItem = {
+  //       item : product,
+  //       qty:cart.filter((val) => val.id == product.id).length
+  //     }
+
+  //     if(cart.filter((val) => val.id == product.id).length<=1)
+  //       setCart([...cart,productItem]);
+     
+  // };
+  const addToCart = (product) => {
+    let productItem = {
+      item: product,
+      qty: cart.filter((val) => val.id == product.id).length,
+    };
+    // if (cart.filter((val) => val.id == product.id).length > 0) {
+      let cartIndex = cart.findIndex((val) => val.id == product.id);
+      let clonedCart = cart
+      clonedCart[cartIndex] = productItem;
+      setCart([...cart,clonedCart]);
+
+    // }
+  };
   const removeFromCart = (productId) => {
     const updatedCart = cart.filter((item) => item.id !== productId);
     setCart(updatedCart);

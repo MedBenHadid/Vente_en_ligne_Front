@@ -6,8 +6,9 @@ import AuthService from '../Services/AuthService';
 
 const LoginPage = ({ history }) => {
   const handleLogin = (username, password) => {
+    
     // Perform authentication
-    AuthService.login(username, password);
+    // AuthService.login(username, password);
 
     // Redirect to the home page after successful login
     history.push('/');
